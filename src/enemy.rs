@@ -64,6 +64,13 @@ pub fn spawn_enemy(
                 ))),
                 ..Default::default()
             })
-            .insert(Health { health: 50 });
+            .insert(Health { health: 50 })
+            .insert(RigidBody::KinematicPositionBased)
+            .insert(CollisionShape::Sphere { radius: 8.0 })
+            .insert(
+                CollisionLayers::none()
+                    .with_group(CollisionLayer::Enemy)
+                    .with_masks(&[CollisionLayer::Player]),
+            );
     }
 }

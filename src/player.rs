@@ -35,7 +35,12 @@ pub fn spawn_player(mut commands: Commands, texture_atlas_assets: Res<TextureAtl
         })
         .insert(PlayerAnimation { roll_frame: 5 })
         .insert(RigidBody::KinematicPositionBased)
-        .insert(CollisionShape::Sphere { radius: 64.0 });
+        .insert(CollisionShape::Sphere { radius: 64.0 })
+        .insert(
+            CollisionLayers::none()
+                .with_group(CollisionLayer::Player)
+                .with_masks(&[CollisionLayer::Enemy]),
+        );
 }
 
 pub fn player_movement(

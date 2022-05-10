@@ -1,4 +1,5 @@
 mod assets;
+mod collision;
 mod components;
 mod enemy;
 mod menu;
@@ -13,6 +14,7 @@ use bevy_asset_loader::AssetCollectionApp;
 
 mod prelude {
     pub use crate::assets::*;
+    pub use crate::collision::*;
     pub use crate::components::*;
     pub use crate::enemy::*;
     pub use crate::menu::*;
@@ -53,17 +55,17 @@ fn main() {
     .init_resource::<StageOrchestrationState>()
     .add_startup_system(setup)
     .add_plugin(MenuPlugin)
+    .add_plugin(ProjectilePlugin)
     .add_enter_system(AppState::Game(InGame), spawn_player)
     .add_system_set(
         ConditionSet::new()
             .run_in_state(AppState::Game(InGame))
             .with_system(player_movement)
             .with_system(animate_player)
-            .with_system(update_projectile)
             .with_system(player_shoot)
-            .with_system(spawn_projectile)
             .with_system(spawn_enemy)
             .with_system(enemy_orchestration)
+            .with_system(collision_system)
             .into(),
     )
     .add_system(bevy::input::system::exit_on_esc_system)
