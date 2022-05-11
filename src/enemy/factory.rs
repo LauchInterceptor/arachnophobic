@@ -22,7 +22,7 @@ impl Default for GenericEnemyBundle {
             notify_death: NotifyDeath,
             health: Health { value: 1 },
             rigidbody: RigidBody::KinematicPositionBased,
-            collision_shape: CollisionShape::Sphere { radius: 8.0 },
+            collision_shape: CollisionShape::Sphere { radius: 1.0 },
             collision_layers: CollisionLayers::none()
                 .with_group(CollisionLayer::Enemy)
                 .with_masks(&[CollisionLayer::Player]),
@@ -53,6 +53,7 @@ impl EnemyFactory {
                 ..Default::default()
             },
             health: Health { value: 15 },
+            collision_shape: CollisionShape::Sphere { radius: 8.0 },
             ..Default::default()
         }
     }
@@ -64,11 +65,12 @@ impl EnemyFactory {
                     custom_size: Some(Vec2::new(32.0, 32.0)),
                     ..Default::default()
                 },
-                texture: self.spider_tiny.clone(),
+                texture: self.spider_small.clone(),
                 transform: Transform::from_translation(Vec3::from((Vec2::ZERO, 0.0))),
                 ..Default::default()
             },
             health: Health { value: 50 },
+            collision_shape: CollisionShape::Sphere { radius: 16.0 },
             ..Default::default()
         }
     }
@@ -80,11 +82,12 @@ impl EnemyFactory {
                     custom_size: Some(Vec2::new(64.0, 64.0)),
                     ..Default::default()
                 },
-                texture: self.spider_tiny.clone(),
+                texture: self.spider_medium.clone(),
                 transform: Transform::from_translation(Vec3::from((Vec2::ZERO, 0.0))),
                 ..Default::default()
             },
             health: Health { value: 200 },
+            collision_shape: CollisionShape::Sphere { radius: 32.0 },
             ..Default::default()
         }
     }
