@@ -1,7 +1,4 @@
-use bevy::{
-    math::{const_vec2, Vec3Swizzles},
-    sprite::collide_aabb::Collision,
-};
+use bevy::math::{const_vec2, Vec3Swizzles};
 
 use crate::prelude::*;
 
@@ -51,7 +48,7 @@ pub struct ProjectileBundle {
     pub sprite_bundle: SpriteBundle,
     pub projectile: Projectile,
     pub faction: Faction,
-    pub damage: DealsDamage,
+    pub damage: DealsContactDamage,
     pub rigidbody: RigidBody,
     pub collider: CollisionShape,
     pub collision_layer: CollisionLayers,
@@ -71,7 +68,7 @@ impl Default for ProjectileBundle {
             projectile: Projectile {
                 velocity: Vec2::new(0.0, 1.0),
             },
-            damage: DealsDamage { amount: 0 },
+            damage: DealsContactDamage { amount: 0 },
             faction: Faction::Player,
             collider: CollisionShape::Sphere { radius: 1.0 },
             collision_layer: CollisionLayers::all::<CollisionLayer>(),
@@ -89,7 +86,7 @@ pub fn spawn_projectile(
             projectile: Projectile {
                 velocity: Vec2::new(0.0, spawn_projectile_event.speed),
             },
-            damage: DealsDamage { amount: 25 },
+            damage: DealsContactDamage { amount: 25 },
             faction: Faction::Player,
             collider: CollisionShape::Sphere { radius: 4.0 },
             sprite_bundle: SpriteBundle {

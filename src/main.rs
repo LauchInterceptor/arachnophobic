@@ -2,6 +2,7 @@ mod assets;
 mod collision;
 mod components;
 mod enemy;
+mod health;
 mod menu;
 mod player;
 mod projectile;
@@ -17,6 +18,7 @@ mod prelude {
     pub use crate::collision::*;
     pub use crate::components::*;
     pub use crate::enemy::*;
+    pub use crate::health::*;
     pub use crate::menu::*;
     pub use crate::player::*;
     pub use crate::projectile::*;
@@ -56,6 +58,7 @@ fn main() {
     .add_startup_system(setup)
     .add_plugin(MenuPlugin)
     .add_plugin(ProjectilePlugin)
+    .add_plugin(HealthPlugin)
     .add_enter_system(AppState::Game(InGame), spawn_player)
     .add_system_set(
         ConditionSet::new()
@@ -65,8 +68,7 @@ fn main() {
             .with_system(player_shoot)
             .with_system(spawn_enemy)
             .with_system(enemy_orchestration)
-            .with_system(enemy_collision)
-            .with_system(enemy_die)
+            .with_system(on_death)
             .into(),
     )
     .add_system(bevy::input::system::exit_on_esc_system)
