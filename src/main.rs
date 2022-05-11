@@ -65,7 +65,8 @@ fn main() {
             .with_system(player_shoot)
             .with_system(spawn_enemy)
             .with_system(enemy_orchestration)
-            .with_system(collision_system)
+            .with_system(enemy_collision)
+            .with_system(enemy_die)
             .into(),
     )
     .add_system(bevy::input::system::exit_on_esc_system)

@@ -1,6 +1,9 @@
 use crate::prelude::*;
 use rand::{thread_rng, Rng};
 
+#[derive(Component)]
+pub struct Enemy;
+
 pub struct SpawnEnemyEvent {
     pub position: Vec2,
 }
@@ -64,7 +67,8 @@ pub fn spawn_enemy(
                 ))),
                 ..Default::default()
             })
-            .insert(Health { health: 50 })
+            .insert(Enemy)
+            .insert(Health { value: 50 })
             .insert(RigidBody::KinematicPositionBased)
             .insert(CollisionShape::Sphere { radius: 8.0 })
             .insert(
@@ -72,5 +76,52 @@ pub fn spawn_enemy(
                     .with_group(CollisionLayer::Enemy)
                     .with_masks(&[CollisionLayer::Player]),
             );
+    }
+}
+
+pub fn enemy_die(mut commands: Commands, enemies: Query<(Entity, &Health), With<Enemy>>) {
+    enemies.for_each(|enemy| {
+        let (entity, health) = enemy;
+        if health.value <= 0 {
+            commands.entity(entity).despawn_recursive();
+        }
+    });
+}
+
+pub fn enemy_collision(
+    mut commands: Commands,
+    mut collision_events: EventReader<CollisionEvent>,
+    mut enemies: Query<&mut Health, With<Enemy>>,
+    mut damage_dealers: Query<(&Faction, &DealsDamage)>,
+) {
+    for event in collision_events.iter().filter(|e| e.is_started()) {
+        let (e1, e2) = event.rigid_body_entities();
+
+        // match enemies.get_many_mut([e1, e2]) {
+        //     Ok([h1, h2]) => {
+        //         println!("{:?} {:?}", h1.value, h2.value);
+        //     }
+        //     Err(_) => (),
+        // }
+
+        if let Ok(mut health) = enemies.get_mut(e1) {
+            if let Ok((faction, damage)) = damage_dealers.get(e2) {
+                match faction {
+                    Faction::Player => {
+                        health.value -= damage.amount;
+                    }
+                    Faction::Spiders => (),
+                }
+            }
+        } else if let Ok(mut health) = enemies.get_mut(e2) {
+            if let Ok((faction, damage)) = damage_dealers.get(e1) {
+                match faction {
+                    Faction::Player => {
+                        health.value -= damage.amount;
+                    }
+                    Faction::Spiders => (),
+                }
+            }
+        }
     }
 }
