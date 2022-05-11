@@ -52,11 +52,11 @@ fn main() {
     .init_collection::<TextureAtlasAssets>()
     .init_collection::<SpriteAssets>()
     .init_collection::<FontAssets>()
-    .init_resource::<StageOrchestrationState>()
     .add_startup_system(setup)
     .add_plugin(MenuPlugin)
     .add_plugin(ProjectilePlugin)
     .add_plugin(HealthPlugin)
+    .add_plugin(EnemyPlugin)
     .add_enter_system(AppState::Game(InGame), spawn_player)
     .add_system_set(
         ConditionSet::new()
@@ -64,9 +64,6 @@ fn main() {
             .with_system(player_movement)
             .with_system(animate_player)
             .with_system(player_shoot)
-            .with_system(spawn_enemy)
-            .with_system(enemy_orchestration)
-            .with_system(on_death)
             .into(),
     )
     .add_system(bevy::input::system::exit_on_esc_system)
