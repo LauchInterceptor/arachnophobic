@@ -6,6 +6,8 @@ pub struct ProjectilePlugin;
 
 impl Plugin for ProjectilePlugin {
     fn build(&self, app: &mut App) {
+        app.add_event::<SpawnProjectileEvent>();
+        app.init_resource::<StageOrchestrationState>();
         app.add_system_set(
             ConditionSet::new()
                 .run_in_state(AppState::Game(InGame))

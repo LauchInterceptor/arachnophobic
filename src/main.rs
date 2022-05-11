@@ -47,8 +47,6 @@ fn main() {
     // Intial State
     .add_loopless_state(AppState::Menu(StartMenu))
     .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
-    .add_event::<SpawnProjectileEvent>()
-    .add_event::<SpawnEnemyEvent>()
     .add_plugins(DefaultPlugins)
     .add_plugin(PhysicsPlugin::default())
     .init_collection::<TextureAtlasAssets>()
