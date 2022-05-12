@@ -24,7 +24,7 @@ impl Plugin for HealthPlugin {
         app.add_event::<OnDeathEvent>();
         app.add_system_set(
             ConditionSet::new()
-                .run_in_state(AppState::Game(InGame))
+                .run_in_state(AppState::Game(Running))
                 .with_system(death_system)
                 .with_system(contact_damage)
                 .into(),

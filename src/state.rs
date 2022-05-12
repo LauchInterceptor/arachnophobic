@@ -12,6 +12,6 @@ pub enum MenuState {
 
 #[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
 pub enum GameState {
-    InGame,
+    Running,
     Pause,
 }

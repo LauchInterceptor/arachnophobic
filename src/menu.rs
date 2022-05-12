@@ -82,7 +82,7 @@ fn start_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 fn start_menu_controls(mut commands: Commands, input: Res<Input<KeyCode>>) {
     for _ in input.get_just_pressed() {
-        commands.insert_resource(NextState(AppState::Game(InGame)));
+        commands.insert_resource(NextState(AppState::Game(Running)));
         break;
     }
 }

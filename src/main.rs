@@ -6,6 +6,7 @@ mod health;
 mod menu;
 mod player;
 mod projectile;
+mod stage;
 mod state;
 mod util;
 mod weapons;
@@ -22,6 +23,7 @@ mod prelude {
     pub use crate::menu::*;
     pub use crate::player::*;
     pub use crate::projectile::*;
+    pub use crate::stage::*;
     pub use crate::state::{AppState, GameState::*, MenuState::*};
     pub use crate::util::*;
     pub use crate::weapons::*;
@@ -56,11 +58,12 @@ fn main() {
     .add_plugin(MenuPlugin)
     .add_plugin(ProjectilePlugin)
     .add_plugin(HealthPlugin)
+    .add_plugin(StagePlugin)
     .add_plugin(EnemyPlugin)
-    .add_enter_system(AppState::Game(InGame), spawn_player)
+    .add_enter_system(AppState::Game(Running), spawn_player)
     .add_system_set(
         ConditionSet::new()
-            .run_in_state(AppState::Game(InGame))
+            .run_in_state(AppState::Game(Running))
             .with_system(player_movement)
             .with_system(animate_player)
             .with_system(player_shoot)
