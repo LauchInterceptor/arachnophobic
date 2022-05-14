@@ -1,1 +1,9 @@
-/target
+# ide
+.vscode
+
+# working documentation
+doc
+TODO
+
+# build files
+target
