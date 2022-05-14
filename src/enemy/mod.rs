@@ -42,6 +42,7 @@ pub fn spawn_enemy(
             EnemyType::TinySpider => enemy_factory.tiny_spider(),
             EnemyType::SmallSpider => enemy_factory.small_spider(),
             EnemyType::MediumSpider => enemy_factory.medium_spider(),
+            _ => todo!(),
         };
         enemy_bundle.sprite.transform =
             Transform::from_translation(Vec3::from((spawn_enemy_event.position, 0.0)));
