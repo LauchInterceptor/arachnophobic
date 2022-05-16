@@ -119,7 +119,6 @@ impl WaveBuilder {
     }
 
     pub fn build(self) -> Wave {
-        println!("Built Wave with {} actions", self.actions.len());
         Wave {
             actions: VecDeque::from(self.actions),
         }

@@ -1,4 +1,5 @@
 use bevy::math::{const_vec2, Vec3Swizzles};
+use rand::{thread_rng, Rng};
 
 use crate::prelude::*;
 
@@ -85,7 +86,10 @@ pub fn spawn_projectile(
     for spawn_projectile_event in event.iter() {
         commands.spawn_bundle(ProjectileBundle {
             projectile: Projectile {
-                velocity: Vec2::new(0.0, spawn_projectile_event.speed),
+                velocity: Vec2::new(
+                    thread_rng().gen_range(-0.75..0.75),
+                    spawn_projectile_event.speed,
+                ),
             },
             damage: DealsContactDamage { amount: 25 },
             faction: Faction::Player,

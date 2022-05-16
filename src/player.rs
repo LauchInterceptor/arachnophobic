@@ -1,5 +1,7 @@
 use std::ops::Sub;
 
+use rand::{thread_rng, Rng};
+
 use crate::prelude::*;
 
 use crate::{TextureAtlasAssets, WINDOW_SIZE};
@@ -85,10 +87,19 @@ pub fn player_shoot(
 ) {
     if let Ok((_player, transform, _player_animation)) = query.get_single() {
         if keyboard_input.pressed(KeyCode::Space) {
+            let offset = Vec3::new(
+                if thread_rng().gen_bool(0.5) {
+                    14.0
+                } else {
+                    -14.0
+                },
+                0.0,
+                0.0,
+            );
             spawn_projectile.send(SpawnProjectileEvent {
-                position: transform.translation.clone(),
+                position: transform.translation.clone() + offset,
                 rotation: transform.rotation.clone(),
-                speed: 1000.0 * crate::TIME_STEP,
+                speed: (1000.0 + thread_rng().gen_range(-25.0..25.0)) * crate::TIME_STEP,
             });
         }
     }
