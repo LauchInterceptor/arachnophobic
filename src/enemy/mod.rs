@@ -53,7 +53,7 @@ pub fn spawn_enemy(
 pub fn on_death(mut death_event: EventReader<OnDeathEvent>, query: Query<Entity, With<Enemy>>) {
     for event in death_event.iter() {
         if let entity = query.get(event.entity) {
-            println!("Notified enemy {:?} on death", entity);
+            // println!("Notified enemy {:?} on death", entity);
         }
     }
 }
